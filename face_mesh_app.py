@@ -20,7 +20,7 @@ import av
 import numpy as np
 import streamlit as st
 from PIL import Image
-import cv2
+#import cv2
 import os
 from streamlit_webrtc import VideoTransformerBase, webrtc_streamer
 import streamlit_webrtc as st_webrtc
