@@ -38,7 +38,7 @@ env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
 import argparse
 import time
 from pathlib import Path
-import cv2
+#import cv2
 import torch
 import numpy as np
 import torch.backends.cudnn as cudnn
