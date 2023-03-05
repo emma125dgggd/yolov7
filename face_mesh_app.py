@@ -30,8 +30,8 @@ from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoad
 from datetime import date
 import streamlit as st
 from streamlit.components.v1 import iframe
-os.add_dll_directory(r"C:\Program Files\GTK3-Runtime Win64\bin")
-sys.path.append('.\yolo\yolov7')
+#os.add_dll_directory(r"C:\Program Files\GTK3-Runtime Win64\bin")
+#sys.path.append('.\yolo\yolov7')
 
 env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
 template = env.get_template("report.html")
