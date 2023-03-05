@@ -34,7 +34,7 @@ from streamlit.components.v1 import iframe
 #sys.path.append('.\yolo\yolov7')
 
 env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
-template = env.get_template("report.html")
+#template = env.get_template("report.html")
 import argparse
 import time
 from pathlib import Path
