@@ -174,7 +174,7 @@ def image_resize(image, width=None, height=None, inter=cv2.INTER_AREA):
     return resized
 
 app_mode = st.sidebar.selectbox('Menu',
-["About",,'Run on Image','Run on Video']
+["About",'Run on Image','Run on Video']
 )
 
 if app_mode =='About':
