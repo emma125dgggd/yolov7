@@ -116,8 +116,7 @@ def save_uploaded_file1(uploadedfile,i):
     with open(os.path.join("Captured","pic {}.jpg".format(i)),"wb") as f:
         f.write(uploadedfile.getbuffer())
 
-mp_drawing = mp.solutions.drawing_utils
-mp_face_mesh = mp.solutions.face_mesh
+
 
 DEMO_VIDEO = 'demo.mp4'
 DEMO_IMAGE = 'demo.jpg'
