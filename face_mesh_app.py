@@ -85,45 +85,8 @@ def letterbox(img, new_shape=(640, 640), color=(114, 114, 114), auto=True, scale
     return img, ratio, (dw, dh)
 
 
-class VideoTransformer(VideoTransformerBase):
-    frame_lock: threading.Lock
-    out_image: Union[None, np.ndarray]
-
-    def __init__(self) -> None:
-        self.frame_lock = threading.Lock()
-        self.out_image = None
-
-    def transform(self, frame: av.VideoFrame) -> np.ndarray:
-        out_image = frame.to_ndarray(format="bgr24")
-
-        with self.frame_lock:
-            self.out_image = out_image
-
-        return out_image
 
 
-def main():
-    st.title("Webcam Snapshot")
-
-    i = 0
-    ctx = webrtc_streamer(key="snapshot", video_processor_factory=VideoTransformer)
-    snap = st.button("Capture Image")
-    if snap:
-        session_id = str(uuid.uuid1())
-        dir_name = "captured_images"
-        os.makedirs(dir_name, exist_ok=True)
-
-        if ctx.video_processor:
-            # snap = st.button("Capture Image")
-
-            with ctx.video_processor.frame_lock:
-                out_image = ctx.video_processor.out_image
-
-            if out_image is not None:
-                image_path = os.path.join(dir_name, f"image_{session_id}.jpg")
-                cv2.imwrite(image_path, out_image)
-                st.success("Image saved!")
-                i += 1
 
 
 classes_to_filter = None  # You can give list of classes to filter by name, Be happy you don't have to put class number. ['train','person' ]
@@ -211,7 +174,7 @@ def image_resize(image, width=None, height=None, inter=cv2.INTER_AREA):
     return resized
 
 app_mode = st.sidebar.selectbox('Menu',
-["About","Run on Camera",'Run on Image','Run on Video']
+["About",,'Run on Image','Run on Video']
 )
 
 if app_mode =='About':
@@ -234,263 +197,16 @@ if app_mode =='About':
 
     st.markdown('''
           # Login \n 
-             Signin of you don't have an account \n
+             [Signin]() of you don't have an account \n
            Follow Us On:
-            - [YouTube](https://augmentedstartups.info/YouTube)
-            - [LinkedIn](https://augmentedstartups.info/LinkedIn)
-            - [Facebook](https://augmentedstartups.info/Facebook)
-            - [Discord](https://augmentedstartups.info/Discord)
+            - [YouTube]()
+            - [LinkedIn]()
+            - [Facebook]()
+            - [Discord]()
         
              
             ''')
-elif app_mode== 'Run on Camera':
-    #help('st.camera_input')
-    #max_faces = st.sidebar.number_input('Maximum Number of Shots', value=2, min_value=1)
-    #help(st.camera_input)
 
-
-    submit= None
-    count=0
-    item= 0
-    path = []
-    image= None
-    pic = None
-    session_id= None
-
-    if submit is None:
-        class VideoTransformer(VideoTransformerBase):
-            frame_lock: threading.Lock
-            out_image: Union[None, np.ndarray]
-
-            def __init__(self) -> None:
-                self.frame_lock = threading.Lock()
-                self.out_image = None
-
-            def transform(self, frame: av.VideoFrame) -> np.ndarray:
-                out_image = frame.to_ndarray(format="bgr24")
-
-                with self.frame_lock:
-                    self.out_image = out_image
-
-                return out_image
-
-
-        def captureimage():
-
-
-            i = 0
-            ctx = webrtc_streamer(key="snapshot", video_processor_factory=VideoTransformer)
-            snap = st.button("Capture Image")
-            if snap:
-                session_id = str(uuid.uuid1())
-                dir_name = "captured_images"+session_id
-                os.makedirs(dir_name, exist_ok=True)
-
-                if ctx.video_processor:
-                    # snap = st.button("Capture Image")
-
-                    with ctx.video_processor.frame_lock:
-                        out_image = ctx.video_processor.out_image
-
-                    if out_image is not None:
-                        image_path = os.path.join(dir_name, f"image_{session_id}.jpg")
-                        print( image_path )
-                        cv2.imwrite(image_path, out_image)
-                        st.success("Image saved!")
-                        i += 1
-
-
-
-    captureimage()
-    #    session_id = str(uuid.uuid4())
-    #    session_dir = f"session_{session_id}"
-     #   os.makedirs(session_dir, exist_ok=True)
-
-
-      #  pic = st.camera_input('Capture Images', key= str(uuid.uuid4()),)
-       # with open(os.path.join(f"session_{session_id}", "pic {}.jpg".format(np.random())), "wb") as f:
-        #    f.write(pic.getbuffer())
-
-
-
-       # if pic is not None :
-        #   with open(os.path.join("session_dir", "pic {}.jpg".format(np.random())), "wb") as f:
-         #     f.write(pic.getbuffer())
-            #print(item)
-
-
-
-
-            #file_info={filename:"pic {}".format(i)
-            ##save_uploaded_file1(pic, i)
-            #i+=1
-
-
-
-    submit = st.button("Submit", )
-    directory_path = 'captured_images'+ str(session_id)
-
-    # Initialize an empty list to store the image file paths
-    image_paths = []
-
-    # Iterate over all files and directories in the specified path
-    for root, directories, files in os.walk(directory_path):
-        # Iterate over all files in the current directory
-        for file in files:
-            # Check if the file has an image extension
-            if file.endswith(('.jpg')):
-                # Construct the full path to the file
-                file_path = os.path.join(root, file)
-                # Add the file path to the list
-                image_paths.append(file_path)
-    #PATH_TO_TEST_IMAGES_DIR = 'Captured'
-    TEST_IMAGE_PATHS = image_paths
-    #print(  TEST_IMAGE_PATHS)
-
-
-    #TEST_IMAGE_PATHS = [os.path.join('Captured', 'pic {}.jpg'.format(i)) for i in range(1, 4)]
-
-    if submit:
-        counter = 0
-
-        for image_path in  TEST_IMAGE_PATHS :
-            image = image_path
-            print(image)
-            #print(glob.glob('captured_images*'))
-            #paths = paths.append(image)
-
-            st.sidebar.text('Original Image')
-
-            st.sidebar.image(image)
-
-            #counter = 0
-
-
-            # Dashboard
-            def counter():
-
-                with torch.no_grad():
-                    weights, imgsz = opt['weights'], opt['img-size']
-                    set_logging()
-                    device = select_device(opt['device'])
-                    half = device.type != 'cpu'
-                    model = attempt_load(weights, map_location='cpu')  # load FP32 model
-                    stride = int(model.stride.max())  # model stride
-                    imgsz = check_img_size(imgsz, s=stride)  # check img_size
-                    if half:
-                        model.half()
-
-                    names = model.module.names if hasattr(model, 'module') else model.names
-                    colors = [[random.randint(0, 255) for _ in range(3)] for _ in names]
-                    if device.type != 'cpu':
-                        model(torch.zeros(1, 3, imgsz, imgsz).to(device).type_as(next(model.parameters())))
-
-                    img0 = cv2.imread(image)
-                    img = letterbox(img0, imgsz, stride=stride)[0]
-                    img = img[:, :, ::-1].transpose(2, 0, 1)  # BGR to RGB, to 3x416x416
-                    img = np.ascontiguousarray(img)
-                    img = torch.from_numpy(img).to(device)
-                    img = img.half() if half else img.float()  # uint8 to fp16/32
-                    img /= 255.0  # 0 - 255 to 0.0 - 1.0
-                    if img.ndimension() == 3:
-                        img = img.unsqueeze(0)
-
-                    # Inference
-                    t1 = time_synchronized()
-                    pred = model(img, augment=False)[0]
-
-                    # Apply NMS
-                    classes = None
-                    if opt['classes']:
-                        classes = []
-                        for class_name in opt['classes']:
-                            classes.append(opt['classes'].index(class_name))
-
-                    pred = non_max_suppression(pred, opt['conf-thres'], opt['iou-thres'], classes=classes,
-                                               agnostic=False)
-                    t2 = time_synchronized()
-                    for i, det in enumerate(pred):
-                        s = ''
-                        s += '%gx%g ' % img.shape[2:]  # print string
-                        gn = torch.tensor(img0.shape)[[1, 0, 1, 0]]
-                        if len(det):
-                            det[:, :4] = scale_coords(img.shape[2:], det[:, :4], img0.shape).round()
-
-                            for c in det[:, -1].unique():
-                                n = (det[:, -1] == c).sum()  # detections per class
-                                s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
-                            print('Plasmodium Falciparum Parasite Detected ' + "{}".format(int(n)))
-                            count= int(len(det))
-
-
-                            crp_cnt = 0
-
-                            for *xyxy, conf, cls in reversed(det):
-                                label = f'{names[int(cls)]} {conf:.2f}'
-                                plot_one_box(xyxy, img0, label=label, color=colors[int(cls)], line_thickness=3)
-
-                                # crop
-                                # crop an image based on coordinates
-                                object_coordinates = [int(xyxy[0]), int(xyxy[1]), int(xyxy[2]), int(xyxy[3])]
-                                cropobj = img0[int(xyxy[1]):int(xyxy[3]), int(xyxy[0]):int(xyxy[2])]
-
-                                # save crop part
-                                crop_file_path = os.path.join("crop", str(crp_cnt) + ".jpg")
-                                cv2.imwrite(crop_file_path, cropobj)
-                                crp_cnt = crp_cnt + 1
-
-                    #kpi1_text.write(f"<h1 style='text-align: center; color: red;'>{face_count}</h1>",
-                      #              unsafe_allow_html=True)
-
-                    st.subheader('Output Image')
-                    st.image(img0, use_column_width=True, channels="BGR",)
-                    #help(st.image)
-                    st.success('Cell Count Completed'"Performing Parasited Cell Detection")
-                    st.success("Performing Parasited Cell Detection")
-
-            counter()
-        #print(count)
-            #counter= counter+counter
-
-        env= Environment(loader=FileSystemLoader('templates'))
-        template= env.get_template('report.html')
-        html = template.render(
-        )
-        print(html)
-
-
-
-        st.success("Your Report was generated!")
-        with open('pdf.html', "w") as f:
-           f.write(html)
-        #st.write("")
-        from  weasyprint import HTML, CSS
-        css= CSS(string=''' 
-            @page {size :A4: margin: 1cm}
-            ''')
-        data= HTML('pdf.html').write_pdf("Lab Report.pdf", )
-
-        pdf_display= None
-
-        #help(st.download_button)
-        with open(os.path.join("Lab Report.pdf"), "rb") as f:
-            base64_pdf = base64.b64encode(f.read()).decode('utf-8')
-            #PDFbyte = f.read()
-
-            pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="800" height="800" type="application/pdf"></iframe>'
-            st.markdown(pdf_display, unsafe_allow_html=True)
-
-        with open("Lab Report.pdf", "rb") as pdf_file:
-            PDFbyte = pdf_file.read()
-
-        st.download_button(label="Download PDF Tutorial", key='6',
-                           data=PDFbyte,
-                           file_name="Lab Report.pdf",
-                           mime='application/octet-stream')
-
-        #st.image(pdf_display )
-
-    print(path)
 
 
 elif app_mode =='Run on Video':
