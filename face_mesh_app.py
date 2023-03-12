@@ -286,21 +286,8 @@ elif app_mode =='Run on Video':
     st.sidebar.video(tfflie.name)
     fps = 0
     i = 0
-    drawing_spec = mp_drawing.DrawingSpec(thickness=2, circle_radius=2)
 
-    kpi1, kpi2, kpi3 = st.sidebar.beta_columns(3)
-
-    with kpi1:
-        st.markdown("**FrameRate**")
-        kpi1_text = st.markdown("0")
-
-    with kpi2:
-        st.markdown("**Detected Faces**")
-        kpi2_text = st.markdown("0")
-
-    with kpi3:
-        st.markdown("**Image Width**")
-        kpi3_text = st.markdown("0")
+    
 
     st.markdown("<hr/>", unsafe_allow_html=True)
 
@@ -378,21 +365,19 @@ elif app_mode =='Run on Video':
 
             frame = cv2.resize(img0,(0,0),fx = 0.8 , fy = 0.8)
             frame = image_resize(image = frame, width = 640)
-            cv2.imshow("Output",frame)
+           
             stframe.image(frame,channels = 'BGR',use_column_width=True)
 
     st.text('Video Processed')
 
-    output_video = open('output.mp4','rb')
-    out_bytes = output_video.read()
-    st.video(out_bytes)
+    
+    st.video(output.mp4)
 
     vid.release()
     output. release()
 
 elif app_mode =='Run on Image':
 
-    #drawing_spec = mp_drawing.DrawingSpec(thickness=2, circle_radius=1)
 
     #st.sidebar.markdown('---')
 
@@ -410,8 +395,7 @@ elif app_mode =='Run on Image':
     """,
     unsafe_allow_html=True,
 )
-   # st.sidebar.markdown("**Detected Faces**")
-   # kpi1_text = st.sidebar.markdown("0")
+   
     img_file_buffer = st.sidebar.file_uploader("Upload an image", type=["jpg", "jpeg", 'png'],
                                                accept_multiple_files=True)
     print(img_file_buffer)
@@ -423,12 +407,7 @@ elif app_mode =='Run on Image':
 
     #st.markdown('---')
 
-   # max_faces = st.sidebar.number_input('Maximum Number of Faces', value=2, min_value=1)
-    #st.sidebar.markdown('---')
-    #detection_confidence = st.sidebar.slider('Min Detection Confidence', min_value =0.0,max_value = 1.0,value = 0.5)
-    #st.sidebar.markdown('---')
-    #st.sidebar.table()
-    #st.sidebar.markdown('---')
+  
 
     if img_file_buffer is not None:
         i=0
@@ -522,7 +501,6 @@ elif app_mode =='Run on Image':
                                 cv2.imwrite(crop_file_path, cropobj)
                                 crp_cnt = crp_cnt + 1
 
-                    #kpi1_text.write(f"<h1 style='text-align: center; color: red;'>{face_count}</h1>", unsafe_allow_html=True)
 
                     st.subheader('Output Image')
                     st.image(img0, use_column_width=True, channels="BGR")
