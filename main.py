@@ -20,7 +20,7 @@ from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized, TracedModel
 
 
-os.add_dll_directory(r"C:\Program Files\GTK3-Runtime Win64\bin")
+#os.add_dll_directory(r"C:\Program Files\GTK3-Runtime Win64\bin")
 sys.path.append('.\yolo\yolov7')
 env = Environment(loader=FileSystemLoader("."), autoescape=select_autoescape())
 template = env.get_template("report.html")
