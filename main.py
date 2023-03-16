@@ -38,6 +38,7 @@ opt = {
     "classes": classes_to_filter  # list of classes to filter or None
 
 }
+st.sidebar.set_width(200)
 count =0
 
 #functions
